@@ -6,7 +6,7 @@ function emptyApi(req, res) {
 }
 
 //insert user
-function handleAddNewUser(req, res) {
+function handleAddNewTodo(req, res) {
     var data = new todomodel({ name: req.body.name, status: req.body.status });
     data.save(function (err, save) {
         if (err) {
@@ -20,21 +20,43 @@ function handleAddNewUser(req, res) {
 }
 
 //update user
-function handleUpdateUser(req, res) {
-    todomodel.findByIdAndUpdate(req.body.id, { name: req.body.name, status: req.body.status }, function (err, updated) {
+function handleUpdateTodo(req, res) {
+    var updatetodo = {};
+    if (req.body.name && req.body.status) {
+        updatetodo = {
+            name: req.body.name,
+            status: req.body.status
+        }
+    }
+    if (req.body.name) {
+        updatetodo = {
+            name: req.body.name
+        }
+    }
+    if (req.body.status) {
+        updatetodo = {
+            status: req.body.status
+        }
+    }
+    todomodel.findByIdAndUpdate(req.body.id, updatetodo, function (err, updated) {
         if (err) {
             res.status(404).send({ message: "Id Not Found" });
             console.log("err:", err)
             return;
         }
-        //console.log("result:", result);
-        res.status(200).send({ message: "Updated Sucessfully" });
-        console.log("updated:", updated);
+        if (!updated) {
+            res.status(200).send({ message: " Not Updated Sucessfully" });
+            return
+        }
+        else {
+            res.status(200).send({ message: "Updated Sucessfully" });
+            console.log("updated:", updated);
+        }
     });
 }
 
 //delete user
-function handleDeleteUser(req, res) {
+function handleDeleteTodo(req, res) {
     todomodel.deleteOne({ _id: req.query.id }, function (err, deleted) {
         if (err) {
             res.status(400).send({ message: "Data Not Found" });
@@ -53,7 +75,7 @@ function handleDeleteUser(req, res) {
 }
 
 //get users
-function handleGetUsers(req, res) {
+function handleGetTodo(req, res) {
     console.log("req:", req.query, req.query.id);
     if (!req.query.id) {
         todomodel.find({}, function (err, data) {
@@ -83,9 +105,9 @@ function handleGetUsers(req, res) {
 
 module.exports = {
     emptyApi,
-    handleAddNewUser,
-    handleUpdateUser,
-    handleDeleteUser,
-    handleGetUsers
+    handleAddNewTodo,
+    handleUpdateTodo,
+    handleDeleteTodo,
+    handleGetTodo
 
 }

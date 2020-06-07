@@ -11,16 +11,16 @@ var db = mongoose.connect('mongodb://localhost:27017/todoApp', { useNewUrlParser
 app.get("/", handlers.emptyApi);
 
 //get data
-app.get("/todo", handlers.handleGetUsers);
+app.get("/todo", handlers.handleGetTodo);
 
 //insert in database
-app.post("/todo", validations.validateNewUser, handlers.handleAddNewUser);
+app.post("/todo", validations.validateNewTodo, handlers.handleAddNewTodo);
 
 //update in database
-app.put("/todo", validations.CheckID, validations.validateUpdateUser, handlers.handleUpdateUser);
+app.put("/todo", validations.CheckID, validations.validateUpdateTodo, handlers.handleUpdateTodo);
 
 //delete in database
-app.delete("/todo", validations.CheckID, handlers.handleDeleteUser);
+app.delete("/todo", validations.CheckID, handlers.handleDeleteTodo);
 
 
 

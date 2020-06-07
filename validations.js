@@ -1,4 +1,4 @@
-function validateNewUser(req, res, next) {
+function validateNewTodo(req, res, next) {
     if (!req.body.name || !req.body.status) {
         res.status(400).send({ message: "name and status are manditory" });
         return;
@@ -7,8 +7,8 @@ function validateNewUser(req, res, next) {
 }
 
 
-function validateUpdateUser(req, res, next) {
-    if (!req.body.name) {
+function validateUpdateTodo(req, res, next) {
+    if (!req.body.name && !req.body.status) {
         res.status(400).send({ message: "name or status are manditory" });
         return;
     }
@@ -25,7 +25,7 @@ function CheckID(req, res, next) {
 
 
 module.exports = {
-    validateNewUser,
+    validateNewTodo,
     CheckID,
-    validateUpdateUser
+    validateUpdateTodo
 }
